@@ -30,7 +30,7 @@
 ### 3. **Configure Deployment Settings**
 
 #### Basic Settings:
-- **Name**: `acts-bangladesh` (or your preferred name)
+- **Name**: `actsbd` (Bangladesh ACTS platform)
 - **Region**: Choose closest to your users
 - **Branch**: `main`
 - **Runtime**: `Python 3`
@@ -47,7 +47,7 @@ Add these in the Render dashboard under "Environment":
 ```
 SECRET_KEY=your-super-secret-django-key-here-make-it-long-and-random
 DEBUG=False
-ALLOWED_HOSTS=your-app-name.onrender.com,acts-bangladesh.onrender.com
+ALLOWED_HOSTS=actsbd.onrender.com
 DB_ENGINE=django.db.backends.postgresql
 DB_NAME=acts_db
 DB_USER=acts_user
@@ -91,7 +91,7 @@ python manage.py load_sample_data
 |----------|---------|---------|
 | `SECRET_KEY` | Django security key | Generate at: https://djecrety.ir/ |
 | `DEBUG` | Production setting | `False` |
-| `ALLOWED_HOSTS` | Allowed domains | `your-app.onrender.com` |
+| `ALLOWED_HOSTS` | Allowed domains | `actsbd.onrender.com` |
 | `DB_ENGINE` | Database type | `django.db.backends.postgresql` |
 | `DB_NAME` | Database name | From Render PostgreSQL |
 | `DB_USER` | Database user | From Render PostgreSQL |
@@ -147,11 +147,11 @@ python manage.py collectstatic --noinput
 
 ## 🎯 Expected URLs After Deployment
 
-- **Landing Page**: `https://your-app.onrender.com/`
-- **Dashboard**: `https://your-app.onrender.com/dashboard/`
-- **Admin Panel**: `https://your-app.onrender.com/admin/`
-- **API Docs**: `https://your-app.onrender.com/api/docs/`
-- **Citizen Reports**: `https://your-app.onrender.com/reports/`
+- **Landing Page**: `https://actsbd.onrender.com/`
+- **Dashboard**: `https://actsbd.onrender.com/dashboard/`
+- **Admin Panel**: `https://actsbd.onrender.com/admin/`
+- **API Docs**: `https://actsbd.onrender.com/api/docs/`
+- **Citizen Reports**: `https://actsbd.onrender.com/reports/`
 
 ## 🇧🇩 Bangladesh Government Features Ready
 
@@ -183,6 +183,6 @@ python manage.py collectstatic --noinput
 - [ ] Run migrations
 - [ ] Test application
 
-**Your ACTS platform will be live at: `https://your-app-name.onrender.com`**
+**Your ACTS platform will be live at: `https://actsbd.onrender.com`**
 
 🇧🇩 **Building Transparent Digital Bangladesh!**
