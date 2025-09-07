@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}District Risk Heatmap - ACTS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .heatmap-legend {
+        margin-bottom: 2rem;
+    }
+    
+    .legend-item {
+        display: inline-block;
+        margin-right: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+    }
+    
+    .legend-high { background-color: #dc3545; }
+    .legend-medium { background-color: #ffc107; color: #212529; }
+    .legend-low { background-color: #28a745; }
+    
+    .district-card {
+        transition: transform 0.2s ease;
+        border-left: 5px solid;
+    }
+    
+    .district-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .district-card.risk-high {
+        border-left-color: #dc3545;
+    }
+    
+    .district-card.risk-medium {
+        border-left-color: #ffc107;
+    }
+    
+    .district-card.risk-low {
+        border-left-color: #28a745;
+    }
+    
+    .risk-score {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    
+    .risk-high .risk-score { color: #dc3545; }
+    .risk-medium .risk-score { color: #ffc107; }
+    .risk-low .risk-score { color: #28a745; }
+    
+    #map {
+        height: 500px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2">
+                        <i class="fas fa-map me-2 text-primary"></i>
+                        District Risk Heatmap
+                    </h1>
+                    <p class="text-muted">Visual representation of corruption risk levels across Bangladesh districts</p>
+                </div>
+                <div class="text-end">
+                    <small class="text-muted">Last updated: {% now "F d, Y g:i A" %}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Districts</h5>
+                    <h2 class="text-primary mb-0">{{ total_districts }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">High Risk</h5>
+                    <h2 class="text-danger mb-0">{{ high_risk_districts }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Medium Risk</h5>
+                    <h2 class="text-warning mb-0">{{ medium_risk_districts }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Low Risk</h5>
+                    <h2 class="text-success mb-0">{{ low_risk_districts }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Risk Level Legend</h5>
+                    <div class="heatmap-legend">
+                        <span class="legend-item legend-high">High Risk (7.0+)</span>
+                        <span class="legend-item legend-medium">Medium Risk (4.0-6.9)</span>
+                        <span class="legend-item legend-low">Low Risk (0.0-3.9)</span>
+                    </div>
+                    <small class="text-muted">Risk scores are calculated based on procurement data analysis and corruption indicators.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Map Placeholder -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-globe me-2"></i>
+                        Interactive Map
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="map"></div>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Click on districts to view detailed risk analysis. Map data will be loaded when geographic coordinates are available.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- District Risk Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-table me-2"></i>
+                        District Risk Analysis
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if heatmap_data %}
+                    <div class="row">
+                        {% for data in heatmap_data %}
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card district-card risk-{{ data.risk_level }} h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 class="card-title mb-0">{{ data.district.name }}</h6>
+                                        <span class="badge bg-{{ data.risk_level|yesno:'danger,warning,success' }}">
+                                            {{ data.risk_level|title }}
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="row text-center mt-3">
+                                        <div class="col-6">
+                                            <div class="risk-score">{{ data.avg_risk_score }}</div>
+                                            <small class="text-muted">Risk Score</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="h4 mb-0">{{ data.tender_count }}</div>
+                                            <small class="text-muted">Tenders</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-map-marker-alt me-1"></i>
+                                            Division: {{ data.district.division|default:"Not specified" }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-map fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No district data available</h5>
+                        <p class="text-muted">Please ensure district and tender data has been loaded into the system.</p>
+                        <a href="{% url 'dashboard:home' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize map
+    const map = L.map('map').setView([23.685, 90.3563], 7); // Center on Bangladesh
+    
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    
+    // Add placeholder text for now
+    const mapInfo = L.control({position: 'topright'});
+    mapInfo.onAdd = function(map) {
+        const div = L.DomUtil.create('div', 'map-info');
+        div.innerHTML = `
+            <div class="bg-white p-3 rounded shadow-sm">
+                <h6 class="mb-2">Map Features</h6>
+                <ul class="list-unstyled mb-0 small">
+                    <li><i class="fas fa-circle text-danger me-1"></i> High Risk Districts</li>
+                    <li><i class="fas fa-circle text-warning me-1"></i> Medium Risk Districts</li>
+                    <li><i class="fas fa-circle text-success me-1"></i> Low Risk Districts</li>
+                </ul>
+            </div>
+        `;
+        return div;
+    };
+    mapInfo.addTo(map);
+    
+    // Add sample markers for demonstration
+    {% for data in heatmap_data|slice:":10" %}
+    {% if data.district.name %}
+    // For demonstration, place markers in approximate locations
+    // In production, you would use actual coordinates from district model
+    const randomLat = 23.685 + (Math.random() - 0.5) * 4;
+    const randomLng = 90.3563 + (Math.random() - 0.5) * 6;
+    
+    const color = '{{ data.risk_level }}' === 'high' ? 'red' : 
+                  '{{ data.risk_level }}' === 'medium' ? 'orange' : 'green';
+    
+    L.circleMarker([randomLat, randomLng], {
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.7,
+        radius: Math.max(5, {{ data.tender_count }} / 2)
+    }).addTo(map)
+    .bindPopup(`
+        <div class="text-center">
+            <h6>{{ data.district.name }}</h6>
+            <p class="mb-1">Risk Score: <strong>{{ data.avg_risk_score }}</strong></p>
+            <p class="mb-1">Tenders: <strong>{{ data.tender_count }}</strong></p>
+            <span class="badge bg-{{ data.risk_level|yesno:'danger,warning,success' }}">
+                {{ data.risk_level|title }} Risk
+            </span>
+        </div>
+    `);
+    {% endif %}
+    {% endfor %}
+    
+    // Add click handler for district cards
+    document.querySelectorAll('.district-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const districtName = this.querySelector('.card-title').textContent;
+            ACTS.showToast(`Viewing details for ${districtName}`, 'info');
+        });
+    });
+});
+</script>
+{% endblock %}

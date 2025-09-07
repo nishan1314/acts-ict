@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Verify Receipt - ACTS{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2">
+                        <i class="fas fa-check-circle me-2 text-primary"></i>
+                        Verify Report Receipt
+                    </h1>
+                    <p class="text-muted">Verify the authenticity and track the status of your report using the receipt ID</p>
+                </div>
+                <div>
+                    <a href="{% url 'citizen_reports:report_list' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-list me-1"></i>
+                        View All Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification Form -->
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-search me-2"></i>
+                        Receipt Verification
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="verificationForm">
+                        <div class="mb-3">
+                            <label for="receiptId" class="form-label">Receipt ID</label>
+                            <input type="text" class="form-control" id="receiptId" placeholder="Enter your receipt ID (e.g., RPT-ABC123)" required>
+                            <div class="form-text">Enter the receipt ID you received when submitting your report.</div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>
+                                Verify Receipt
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sample Verification Results -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <div class="card" id="verificationResult" style="display: none;">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Receipt Verified Successfully
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Report Details</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>Receipt ID:</strong> <code id="verifiedId">RPT-ABC123</code></li>
+                                <li><strong>Type:</strong> <span class="badge bg-danger">Bribery</span></li>
+                                <li><strong>Location:</strong> Dhaka, Dhanmondi</li>
+                                <li><strong>Submitted:</strong> September 5, 2025</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Status & Timeline</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>Current Status:</strong> <span class="badge bg-warning">Under Investigation</span></li>
+                                <li><strong>Last Updated:</strong> September 6, 2025</li>
+                                <li><strong>Estimated Resolution:</strong> 15-30 days</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <h6>Investigation Timeline</h6>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-success"></div>
+                            <div class="timeline-content">
+                                <h6 class="timeline-title">Report Submitted</h6>
+                                <p class="timeline-text">Your report was successfully submitted and assigned a unique ID.</p>
+                                <small class="text-muted">September 5, 2025 - 2:30 PM</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-success"></div>
+                            <div class="timeline-content">
+                                <h6 class="timeline-title">Initial Review Completed</h6>
+                                <p class="timeline-text">Report has been reviewed and categorized for investigation.</p>
+                                <small class="text-muted">September 5, 2025 - 5:45 PM</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-warning"></div>
+                            <div class="timeline-content">
+                                <h6 class="timeline-title">Investigation In Progress</h6>
+                                <p class="timeline-text">Case has been assigned to an investigation team.</p>
+                                <small class="text-muted">September 6, 2025 - 10:00 AM</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-secondary"></div>
+                            <div class="timeline-content">
+                                <h6 class="timeline-title">Pending: Evidence Collection</h6>
+                                <p class="timeline-text">Investigators are gathering additional evidence.</p>
+                                <small class="text-muted">Expected: September 15, 2025</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Next Steps:</strong> You will be notified of any significant updates. If you have additional information, you can submit an update using this receipt ID.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-question-circle me-2"></i>
+                        How Receipt Verification Works
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-paper-plane fa-3x text-primary mb-3"></i>
+                            <h6>1. Submit Report</h6>
+                            <p class="text-muted">When you submit a report, you receive a unique receipt ID generated using cryptographic hash.</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-search fa-3x text-success mb-3"></i>
+                            <h6>2. Verify Receipt</h6>
+                            <p class="text-muted">Use your receipt ID to verify the authenticity and track the status of your report.</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-shield-alt fa-3x text-warning mb-3"></i>
+                            <h6>3. Stay Anonymous</h6>
+                            <p class="text-muted">The verification system ensures your identity remains protected while providing transparency.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #dee2e6;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -22px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px #dee2e6;
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid #dee2e6;
+}
+
+.timeline-title {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.timeline-text {
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('verificationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const receiptId = document.getElementById('receiptId').value.trim();
+    const resultDiv = document.getElementById('verificationResult');
+    const verifiedIdSpan = document.getElementById('verifiedId');
+    
+    if (receiptId) {
+        // Simulate verification process
+        const btn = this.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+        
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Verifying...';
+        btn.disabled = true;
+        
+        setTimeout(() => {
+            verifiedIdSpan.textContent = receiptId;
+            resultDiv.style.display = 'block';
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+            
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            
+            ACTS.showToast('Receipt verified successfully!', 'success');
+        }, 1500);
+    }
+});
+</script>
+{% endblock %}

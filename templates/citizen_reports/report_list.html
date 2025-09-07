@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Citizen Reports - ACTS{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2">
+                        <i class="fas fa-flag me-2 text-primary"></i>
+                        Citizen Reports
+                    </h1>
+                    <p class="text-muted">View and track corruption reports submitted by citizens</p>
+                </div>
+                <div>
+                    <a href="{% url 'citizen_reports:submit_report' %}" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i>
+                        Submit New Report
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Reports</h5>
+                    <h2 class="text-primary mb-0">156</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Under Investigation</h5>
+                    <h2 class="text-warning mb-0">43</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Resolved</h5>
+                    <h2 class="text-success mb-0">89</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">This Month</h5>
+                    <h2 class="text-info mb-0">24</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports List -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-list me-2"></i>
+                        Recent Reports
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Date Submitted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Sample data -->
+                                <tr>
+                                    <td><code>RPT-2025-001</code></td>
+                                    <td><span class="badge bg-danger">Bribery</span></td>
+                                    <td>Dhaka, Dhanmondi</td>
+                                    <td><span class="badge bg-warning">Under Investigation</span></td>
+                                    <td>Sept 5, 2025</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>RPT-2025-002</code></td>
+                                    <td><span class="badge bg-warning">Procurement Fraud</span></td>
+                                    <td>Chittagong, Agrabad</td>
+                                    <td><span class="badge bg-success">Resolved</span></td>
+                                    <td>Sept 3, 2025</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>RPT-2025-003</code></td>
+                                    <td><span class="badge bg-info">Misuse of Funds</span></td>
+                                    <td>Sylhet, Zindabazar</td>
+                                    <td><span class="badge bg-warning">Under Investigation</span></td>
+                                    <td>Sept 1, 2025</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            This is a demonstration with sample data. In production, this would show real citizen reports.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

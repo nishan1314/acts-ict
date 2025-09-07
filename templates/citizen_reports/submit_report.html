@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Submit Report - ACTS{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2">
+                        <i class="fas fa-plus me-2 text-primary"></i>
+                        Submit Corruption Report
+                    </h1>
+                    <p class="text-muted">Report corruption incidents anonymously and securely</p>
+                </div>
+                <div>
+                    <a href="{% url 'citizen_reports:report_list' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>
+                        Back to Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Form -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        Secure Report Submission
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="reportForm">
+                        {% csrf_token %}
+                        
+                        <!-- Report Type -->
+                        <div class="mb-3">
+                            <label for="reportType" class="form-label">Type of Corruption</label>
+                            <select class="form-select" id="reportType" required>
+                                <option value="">Select corruption type...</option>
+                                <option value="bribery">Bribery</option>
+                                <option value="procurement_fraud">Procurement Fraud</option>
+                                <option value="misuse_of_funds">Misuse of Public Funds</option>
+                                <option value="nepotism">Nepotism</option>
+                                <option value="embezzlement">Embezzlement</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="district" class="form-label">District</label>
+                                <select class="form-select" id="district" required>
+                                    <option value="">Select district...</option>
+                                    <option value="dhaka">Dhaka</option>
+                                    <option value="chittagong">Chittagong</option>
+                                    <option value="sylhet">Sylhet</option>
+                                    <option value="rajshahi">Rajshahi</option>
+                                    <option value="khulna">Khulna</option>
+                                    <option value="barisal">Barisal</option>
+                                    <option value="rangpur">Rangpur</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="area" class="form-label">Area/Upazila</label>
+                                <input type="text" class="form-control" id="area" placeholder="Enter area or upazila">
+                            </div>
+                        </div>
+
+                        <!-- Organization -->
+                        <div class="mb-3">
+                            <label for="organization" class="form-label">Organization/Department Involved</label>
+                            <input type="text" class="form-control" id="organization" placeholder="Enter organization name" required>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description of Incident</label>
+                            <textarea class="form-control" id="description" rows="5" placeholder="Provide detailed description of the corruption incident..." required></textarea>
+                            <div class="form-text">Please provide as much detail as possible while protecting your identity.</div>
+                        </div>
+
+                        <!-- Estimated Amount -->
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Estimated Amount Involved (BDT)</label>
+                            <input type="number" class="form-control" id="amount" placeholder="Enter amount in Taka">
+                        </div>
+
+                        <!-- Date of Incident -->
+                        <div class="mb-3">
+                            <label for="incidentDate" class="form-label">Date of Incident</label>
+                            <input type="date" class="form-control" id="incidentDate">
+                        </div>
+
+                        <!-- Evidence -->
+                        <div class="mb-3">
+                            <label for="evidence" class="form-label">Evidence (Optional)</label>
+                            <input type="file" class="form-control" id="evidence" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                            <div class="form-text">You can upload documents, photos, or other evidence. Maximum 10MB per file.</div>
+                        </div>
+
+                        <!-- Contact Information (Optional) -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-user me-2"></i>
+                                    Contact Information (Optional)
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Providing contact information is optional but may help with follow-up investigations.
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="contactName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="contactName" placeholder="Your name (optional)">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="contactPhone" class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="contactPhone" placeholder="Your phone number (optional)">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="contactEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="contactEmail" placeholder="Your email (optional)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy Notice -->
+                        <div class="alert alert-warning">
+                            <h6><i class="fas fa-shield-alt me-2"></i>Privacy & Security Notice</h6>
+                            <ul class="mb-0">
+                                <li>Your report will be processed anonymously</li>
+                                <li>We use encryption to protect your data</li>
+                                <li>You will receive a unique receipt for tracking</li>
+                                <li>Personal information will never be shared without consent</li>
+                            </ul>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Submit Report Securely
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('reportForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Simulate form submission
+    const btn = this.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+        // Generate a mock receipt hash
+        const receiptHash = 'RPT-' + Date.now().toString(36).toUpperCase();
+        
+        // Show success message
+        ACTS.showToast(`Report submitted successfully! Receipt ID: ${receiptHash}`, 'success');
+        
+        // Reset form
+        this.reset();
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        
+        // Redirect to verification page after 3 seconds
+        setTimeout(() => {
+            window.location.href = "{% url 'citizen_reports:verify_receipt' %}";
+        }, 3000);
+    }, 2000);
+});
+</script>
+{% endblock %}

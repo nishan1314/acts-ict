@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - ACTS{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Hero Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient text-white" style="background: linear-gradient(135deg, #2c3e50, #3498db);">
+                <div class="card-body py-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h1 class="display-4 mb-3">
+                                <i class="fas fa-shield-alt me-3"></i>ACTS
+                            </h1>
+                            <p class="lead mb-0">
+                                Accountability & corruption tracking civic technology platform for transparent governance in Bangladesh.
+                                Analyzing procurement data to detect irregularities and empower citizen oversight.
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="d-flex justify-content-around">
+                                <div>
+                                    <div class="h2 mb-0">{{ total_tenders }}</div>
+                                    <small>Total Tenders</small>
+                                </div>
+                                <div>
+                                    <div class="h2 mb-0 text-warning">{{ high_risk_tenders }}</div>
+                                    <small>High Risk</small>
+                                </div>
+                                <div>
+                                    <div class="h2 mb-0 text-info">{{ total_reports }}</div>
+                                    <small>Citizen Reports</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-number text-primary">{{ total_tenders }}</div>
+                <h6 class="text-muted">Total Tenders</h6>
+                <small class="text-muted">Analyzed for corruption risks</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-number risk-high">{{ high_risk_tenders }}</div>
+                <h6 class="text-muted">High Risk Tenders</h6>
+                <small class="text-muted">Requiring investigation</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-number text-info">{{ total_reports }}</div>
+                <h6 class="text-muted">Citizen Reports</h6>
+                <small class="text-muted">With integrity receipts</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-number text-success">{{ total_districts }}</div>
+                <h6 class="text-muted">Districts Covered</h6>
+                <small class="text-muted">Across Bangladesh</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Risk Flags Summary -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-flag text-danger me-2"></i>
+                        Risk Flags Detected
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0">
+                                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-1">Single Bid Tenders</h6>
+                                    <div class="h4 mb-0 text-danger">{{ risk_flags.single_bid }}</div>
+                                    <small class="text-muted">Monopolistic practices</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0">
+                                    <div class="rounded-circle bg-warning text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-1">Short Windows</h6>
+                                    <div class="h4 mb-0 text-warning">{{ risk_flags.short_window }}</div>
+                                    <small class="text-muted">Less than 7 days</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0">
+                                    <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-link"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-1">Repeated Pairs</h6>
+                                    <div class="h4 mb-0 text-info">{{ risk_flags.repeated_pair }}</div>
+                                    <small class="text-muted">Potential collusion</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Recent High-Risk Tenders -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+                        Recent High-Risk Tenders
+                    </h5>
+                    <a href="{% url 'dashboard:tender_list' %}?risk_level=high" class="btn btn-sm btn-outline-primary">
+                        View All
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if recent_high_risk %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tender ID</th>
+                                        <th>Title</th>
+                                        <th>Buyer</th>
+                                        <th>Risk Score</th>
+                                        <th>Flags</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for risk in recent_high_risk %}
+                                        <tr>
+                                            <td>
+                                                <a href="{% url 'dashboard:tender_detail' risk.tender.tender_id %}" class="text-decoration-none">
+                                                    {{ risk.tender.tender_id }}
+                                                </a>
+                                            </td>
+                                            <td>{{ risk.tender.title|truncatechars:40 }}</td>
+                                            <td>{{ risk.tender.buyer.name|truncatechars:30 }}</td>
+                                            <td>
+                                                <span class="badge {% if risk.risk_level == 'critical' %}badge-risk-critical{% else %}badge-risk-high{% endif %}">
+                                                    {{ risk.total_risk_score }}/100
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {% if risk.single_bid_flag %}
+                                                    <i class="fas fa-user-tie text-danger me-1" title="Single Bid"></i>
+                                                {% endif %}
+                                                {% if risk.short_window_flag %}
+                                                    <i class="fas fa-clock text-warning me-1" title="Short Window"></i>
+                                                {% endif %}
+                                                {% if risk.repeated_pair_flag %}
+                                                    <i class="fas fa-link text-info me-1" title="Repeated Pair"></i>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
+                            <h6>No high-risk tenders found</h6>
+                            <p class="text-muted">All tenders appear to be low risk.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- District Risk Summary -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        Top Risk Districts
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if district_risks %}
+                        {% for district in district_risks %}
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h6 class="mb-1">{{ district.tender__buyer__district__name }}</h6>
+                                    <small class="text-muted">
+                                        {{ district.high_risk_count }}/{{ district.total_count }} high risk
+                                    </small>
+                                </div>
+                                <div class="text-end">
+                                    <div class="h6 mb-0 
+                                        {% if district.avg_risk_score >= 60 %}text-danger
+                                        {% elif district.avg_risk_score >= 30 %}text-warning
+                                        {% else %}text-success{% endif %}">
+                                        {{ district.avg_risk_score|floatformat:1 }}/100
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted text-center">No district data available</p>
+                    {% endif %}
+                    
+                    <div class="mt-3">
+                        <a href="{% url 'dashboard:heatmap' %}" class="btn btn-primary btn-sm w-100">
+                            <i class="fas fa-map me-1"></i>
+                            View Geographic Heatmap
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt text-warning me-2"></i>
+                        Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'citizen_reports:submit_report' %}" class="btn btn-success">
+                            <i class="fas fa-plus me-2"></i>
+                            Submit Corruption Report
+                        </a>
+                        <a href="{% url 'citizen_reports:verify_receipt' %}" class="btn btn-info">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Verify Receipt
+                        </a>
+                        <a href="{% url 'dashboard:risk_analysis' %}" class="btn btn-warning">
+                            <i class="fas fa-chart-line me-2"></i>
+                            Run Risk Analysis
+                        </a>
+                        <a href="/api/docs/" class="btn btn-outline-secondary">
+                            <i class="fas fa-code me-2"></i>
+                            API Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Information -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h6 class="alert-heading mb-2">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Demo Platform - PTIB Civic Tech Challenge 2025
+                        </h6>
+                        <p class="mb-0">
+                            This is a prototype demonstration of ACTS, showcasing accountability & corruption tracking 
+                            technology capabilities. The platform analyzes procurement data to detect 
+                            irregularities and provides citizens with tools to report corruption with 
+                            cryptographic integrity receipts.
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <strong>Features Demonstrated:</strong>
+                        <ul class="list-unstyled mt-2 small">
+                            <li><i class="fas fa-check text-success me-1"></i> Risk Flag Detection</li>
+                            <li><i class="fas fa-check text-success me-1"></i> Geographic Heatmaps</li>
+                            <li><i class="fas fa-check text-success me-1"></i> Citizen Reporting</li>
+                            <li><i class="fas fa-check text-success me-1"></i> Integrity Receipts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

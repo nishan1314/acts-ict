@@ -1,0 +1,452 @@
+/* ACTS Custom Styles - Bangladesh Theme */
+
+:root {
+    --primary-green: #006A4E;    /* Bangladesh Green */
+    --primary-red: #D42A1F;      /* Bangladesh Red */
+    --pure-white: #FFFFFF;       /* Pure White */
+    --light-green: #E8F5E8;      /* Light Green */
+    --light-red: #FCE4EC;        /* Light Red */
+    --dark-gray: #212529;        /* Dark Gray */
+    --light-gray: #F8F9FA;       /* Light Gray */
+    
+    /* Legacy color compatibility */
+    --primary-color: var(--primary-green);
+    --secondary-color: var(--primary-red);
+    --danger-color: var(--primary-red);
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: var(--light-gray);
+    --dark-color: var(--dark-gray);
+}
+
+body {
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--pure-white);
+    color: var(--dark-gray);
+    padding-top: 80px; /* Add padding for fixed navbar */
+}
+
+/* Responsive navbar padding */
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px; /* Reduced padding for mobile */
+    }
+}
+
+.navbar {
+    background: linear-gradient(135deg, var(--primary-green), #004d39);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-bottom: 2px solid var(--primary-red);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: linear-gradient(135deg, rgba(0,106,78,0.95), rgba(0,77,57,0.95));
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--pure-white) !important;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--pure-white) !important;
+    transform: translateY(-1px);
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    background: var(--pure-white);
+    border-left: 4px solid var(--primary-green);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    border-left-color: var(--primary-red);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--light-gray), var(--pure-white));
+    border-bottom: 2px solid var(--primary-green);
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-green), #004d39);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-red), #a01f1a);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 42, 31, 0.3);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-green);
+    color: var(--primary-green);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-green);
+    border-color: var(--primary-green);
+    transform: translateY(-2px);
+}
+
+.risk-high {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+
+.risk-medium {
+    color: var(--warning-color);
+    font-weight: bold;
+}
+
+.risk-low {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Dashboard specific styling */
+.dashboard-header {
+    background: linear-gradient(135deg, var(--primary-green), #004d39);
+    color: var(--pure-white);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.dashboard-card {
+    border-left: 4px solid var(--primary-green);
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    border-left-color: var(--primary-red);
+    transform: translateY(-3px);
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--pure-white), var(--light-gray));
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid #E0E0E0;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border-color: var(--primary-green);
+}
+
+.table {
+    background: var(--pure-white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.table thead th {
+    background: linear-gradient(135deg, var(--primary-green), #004d39);
+    color: var(--pure-white);
+    border: none;
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background-color: var(--light-green);
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+}
+
+.badge-success {
+    background: var(--primary-green) !important;
+}
+
+.badge-warning {
+    background: var(--warning-color) !important;
+}
+
+.badge-danger {
+    background: var(--primary-red) !important;
+}
+
+.footer {
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    padding: 3rem 0 1rem;
+    margin-top: 3rem;
+    border-top: 2px solid var(--primary-green);
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+}
+
+/* Chart containers */
+.chart-container {
+    position: relative;
+    height: 400px;
+    margin: 20px 0;
+}
+
+/* Loading spinner */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* =========================
+   NAGORIK SEVA LANDING PAGE STYLES
+   ========================= */
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-green) 0%, #004d39 100%);
+    color: var(--pure-white);
+    padding: 100px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.hero-subtitle-bangla {
+    font-family: 'Kalpurush', sans-serif;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.85;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Feature Cards */
+.feature-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.feature-card .card-header {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-red));
+    color: var(--pure-white);
+    border: none;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Service Cards */
+.service-card {
+    border: 2px solid transparent;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    height: 100%;
+    background: var(--pure-white);
+}
+
+.service-card:hover {
+    border-color: var(--primary-green);
+    transform: scale(1.02);
+}
+
+.service-card.red-border {
+    border-left: 5px solid var(--primary-red);
+}
+
+.service-card.green-border {
+    border-left: 5px solid var(--primary-green);
+}
+
+/* Process Steps */
+.process-step {
+    background: var(--pure-white);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    border: 3px solid var(--primary-green);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-green);
+    transition: all 0.3s ease;
+}
+
+.process-step:hover {
+    background: var(--primary-green);
+    color: var(--pure-white);
+    transform: scale(1.1);
+}
+
+/* Statistics */
+.stat-card {
+    background: linear-gradient(135deg, var(--pure-white), var(--light-gray));
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 0.5rem;
+}
+
+/* Landing Page Footer */
+.landing-footer {
+    background: linear-gradient(135deg, var(--dark-gray), #1a1a1a);
+    color: var(--pure-white);
+    padding: 3rem 0 1rem;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-green);
+}
+
+/* Responsive Design for Landing Page */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-subtitle-bangla {
+        font-size: 0.9rem;
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+    
+    .process-step {
+        width: 60px;
+        height: 60px;
+        font-size: 1.2rem;
+    }
+}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - ACTS{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Key Metrics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Tenders</h5>
+                    <h2>{{ total_tenders }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">High Risk Tenders</h5>
+                    <h2>{{ high_risk_tenders }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Avg Risk Score</h5>
+                    <h2>{{ avg_risk_score }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Active Investigations</h5>
+                    <h2>{{ active_investigations }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- District Risk Map -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>District Risk Overview</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>District</th>
+                                <th>Risk Score</th>
+                                <th>Tender Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for district in districts %}
+                            <tr>
+                                <td>{{ district.name }}</td>
+                                <td>
+                                    <span class="badge {% if district.risk_score >= 4 %}bg-danger{% elif district.risk_score >= 3 %}bg-warning{% else %}bg-success{% endif %}">
+                                        {{ district.risk_score }}
+                                    </span>
+                                </td>
+                                <td>{{ district.tender_count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Tenders -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Recent Tenders</h5>
+                </div>
+                <div class="card-body">
+                    {% for tender in recent_tenders %}
+                    <div class="mb-3 p-3 border-start border-3 {% if tender.risk_score >= 4 %}border-danger{% elif tender.risk_score >= 3 %}border-warning{% else %}border-success{% endif %}">
+                        <h6>{{ tender.title }}</h6>
+                        <small class="text-muted">{{ tender.organization }}</small><br>
+                        <small>Amount: ৳{{ tender.amount|floatformat:0 }}</small><br>
+                        <span class="badge {% if tender.risk_score >= 4 %}bg-danger{% elif tender.risk_score >= 3 %}bg-warning{% else %}bg-success{% endif %}">
+                            Risk: {{ tender.risk_score }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

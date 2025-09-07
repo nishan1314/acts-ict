@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Risk Analysis - ACTS{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <h2 class="mb-4">Risk Analysis Dashboard</h2>
+
+    <div class="row mb-4">
+        <!-- Risk Distribution Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Risk Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="riskDistributionChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Trends Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Risk Trends (Last 5 Months)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="riskTrendsChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Top Risk Organizations -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Organizations with Highest Risk Scores</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Organization</th>
+                                    <th>Average Risk Score</th>
+                                    <th>Risk Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for org in top_risk_organizations %}
+                                <tr>
+                                    <td>{{ org.name }}</td>
+                                    <td>{{ org.avg_risk }}</td>
+                                    <td>
+                                        <span class="badge {% if org.avg_risk >= 4 %}bg-danger{% elif org.avg_risk >= 3 %}bg-warning{% else %}bg-success{% endif %}">
+                                            {% if org.avg_risk >= 4 %}Very High{% elif org.avg_risk >= 3 %}High{% else %}Medium{% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Django data for JavaScript -->
+{{ risk_distribution|json_script:"risk-distribution-data" }}
+{{ risk_trends|json_script:"risk-trends-data" }}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get data from Django JSON scripts
+    const riskDistributionData = JSON.parse(document.getElementById('risk-distribution-data').textContent);
+    const riskTrendsData = JSON.parse(document.getElementById('risk-trends-data').textContent);
+    
+    // Risk Distribution Pie Chart
+    const pieCtx = document.getElementById('riskDistributionChart');
+    if (pieCtx) {
+        new Chart(pieCtx.getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: ['Very High', 'High', 'Medium', 'Low', 'Very Low'],
+                datasets: [{
+                    data: [
+                        riskDistributionData.very_high || 0,
+                        riskDistributionData.high || 0,
+                        riskDistributionData.medium || 0,
+                        riskDistributionData.low || 0,
+                        riskDistributionData.very_low || 0
+                    ],
+                    backgroundColor: [
+                        '#dc3545',
+                        '#fd7e14',
+                        '#ffc107', 
+                        '#198754',
+                        '#20c997'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+
+    // Risk Trends Line Chart  
+    const lineCtx = document.getElementById('riskTrendsChart');
+    if (lineCtx && riskTrendsData && riskTrendsData.length > 0) {
+        const labels = riskTrendsData.map(trend => trend.month);
+        const data = riskTrendsData.map(trend => trend.avg_risk);
+        
+        new Chart(lineCtx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Average Risk Score',
+                    data: data,
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

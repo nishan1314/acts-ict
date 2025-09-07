@@ -1,0 +1,1560 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTS – Accountability & Corruption Tracking System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Kalpurush&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-green: #006A4E;
+            --primary-red: #D42A1F;
+            --pure-white: #FFFFFF;
+            --light-green: #E8F5E8;
+            --light-red: #FCE4EC;
+            --dark-gray: #212529;
+            --light-gray: #F8F9FA;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--pure-white);
+            color: var(--dark-gray);
+        }
+        
+        .bangla-text {
+            font-family: 'Kalpurush', sans-serif;
+        }
+        
+        /* Header */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-green) 0%, #228B22 100%);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,106,78,0.3);
+        }
+        
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--pure-white) !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--pure-white) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--light-green) !important;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-green) 0%, #006A4E 100%);
+            color: var(--pure-white);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="1000,100 1000,0 0,100"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: center;
+        }
+        
+        .hero-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        
+        .hero-text-section {
+            width: 100%;
+        }
+        
+        .stats-flex {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        .hero-buttons .btn {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+        
+        .hero-badge .badge {
+            font-size: 0.9rem;
+            font-weight: 500;
+            animation: fadeInDown 1s ease-out 0.3s both;
+        }
+        
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+        
+        .typewriter {
+            display: inline-block;
+            white-space: normal;
+            max-width: 100%;
+            font-size: 2.8rem;
+            line-height: 1.2;
+            word-break: break-word;
+            width: auto;
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary-green); }
+        }
+        
+        .hero-description {
+            margin-bottom: 2rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        
+        .hero-subtitle-en {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+        
+        .hero-stats .stat-item {
+            padding: 1rem 0.8rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+        
+        .hero-stats .stat-item:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--pure-white);
+            margin-bottom: 0.3rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--pure-white);
+        }
+        
+        .btn-hero {
+            background: linear-gradient(135deg, var(--primary-red), #a01f1a);
+            border: none;
+            color: var(--pure-white);
+            padding: 18px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn-hero:hover::before {
+            left: 100%;
+        }
+        
+        .btn-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 42, 31, 0.4);
+        }
+        
+        .btn-arrow {
+            display: inline-block;
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-hero:hover .btn-arrow {
+            transform: translateX(5px);
+        }
+        
+        .btn-hero-outline {
+            background: transparent;
+            border: 2px solid var(--pure-white);
+            color: var(--pure-white);
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-hero-outline:hover {
+            background: var(--pure-white);
+            color: var(--primary-green);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,255,255,0.3);
+        }
+        
+        .hero-trust-indicators {
+            animation: fadeInUp 1s ease-out 1.2s both;
+        }
+        
+        .trust-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .trust-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+        
+        .trust-divider {
+            margin: 0 10px;
+            opacity: 0.6;
+        }
+        
+        /* Hero Visual Elements */
+        .hero-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .floating-cards {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .floating-card {
+            position: absolute;
+            background: var(--pure-white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 90px;
+            height: 90px;
+            animation: float 6s ease-in-out infinite;
+            border: 2px solid rgba(0,106,78,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .floating-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0,106,78,0.2);
+        }
+        
+        .floating-card i {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+            color: var(--primary-green);
+        }
+        
+        .floating-card span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            line-height: 1.2;
+        }
+        
+        /* Circular positioning - 120 degrees apart */
+        .card-1 {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 0s;
+        }
+        
+        .card-2 {
+            bottom: 20px;
+            right: 0;
+            animation-delay: 2s;
+        }
+        
+        .card-3 {
+            bottom: 20px;
+            left: 0;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .shield-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .shield-bg {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-red));
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+        
+        .hero-icon {
+            font-size: 5rem;
+            color: var(--pure-white);
+            z-index: 2;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .pulse-rings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .pulse-ring {
+            position: absolute;
+            border: 2px solid var(--pure-white);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulsering 3s ease-out infinite;
+        }
+        
+        .ring-1 {
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 0s;
+        }
+        
+        .ring-2 {
+            width: 130px;
+            height: 130px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 1s;
+        }
+        
+        .ring-3 {
+            width: 160px;
+            height: 160px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 2s;
+        }
+        
+        @keyframes pulsering {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .btn-hero-outline {
+            background: transparent;
+            border: 2px solid var(--pure-white);
+            color: var(--pure-white);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+        
+        .btn-hero-outline:hover {
+            background: var(--pure-white);
+            color: var(--primary-green);
+            transform: translateY(-3px);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+            background: var(--light-gray);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: var(--pure-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--pure-white);
+        }
+        
+        .feature-icon.green {
+            background: linear-gradient(135deg, var(--primary-green), #228B22);
+        }
+        
+        .feature-icon.red {
+            background: linear-gradient(135deg, var(--primary-red), #B71C1C);
+        }
+        
+        .feature-card h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 0;
+            background: var(--pure-white);
+        }
+        
+        .step-card {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-red), #B71C1C);
+            color: var(--pure-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .step-card h5 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+        
+        /* Services Section */
+        .services-section {
+            padding: 100px 0;
+            background: var(--light-green);
+        }
+        
+        .service-card {
+            background: var(--pure-white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        
+        .service-header {
+            background: linear-gradient(135deg, var(--primary-green), #228B22);
+            color: var(--pure-white);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .service-header i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-header h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .service-body {
+            padding: 2rem;
+        }
+        
+        .service-body ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .service-body ul li {
+            padding: 0.5rem 0;
+            color: #666;
+        }
+        
+        .service-body ul li i {
+            color: var(--primary-green);
+            margin-right: 0.5rem;
+        }
+        
+        /* Statistics */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary-red), #B71C1C);
+            color: var(--pure-white);
+            padding: 80px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            padding: 60px 0 20px;
+            border-top: 2px solid var(--primary-green);
+        }
+        
+        .footer h5 {
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer ul li a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer ul li a:hover {
+            color: var(--primary-green);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #DDD;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            text-align: center;
+            color: #666;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .typewriter {
+                font-size: 2.4rem;
+            }
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .hero-visual {
+                height: 350px;
+            }
+            
+            .floating-cards {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .floating-card {
+                width: 80px;
+                height: 80px;
+                padding: 12px;
+            }
+            
+            .floating-card i {
+                font-size: 1.2rem;
+            }
+            
+            .floating-card span {
+                font-size: 0.65rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .typewriter {
+                font-size: 2rem;
+            }
+            .hero-section {
+                padding: 80px 0;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-subtitle-en {
+                font-size: 1rem;
+            }
+            
+            .hero-visual {
+                height: 300px;
+                margin-top: 3rem;
+            }
+            
+            .floating-cards {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .stats-flex {
+                justify-content: center;
+                gap: 1.2rem;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .typewriter {
+                font-size: 1.6rem;
+                white-space: normal;
+                word-break: break-word;
+            }
+            .hero-section {
+                padding: 60px 0;
+            }
+            
+            .hero-main-content {
+                text-align: center;
+            }
+            
+            .stats-flex {
+                justify-content: center;
+                gap: 1rem;
+                margin-top: 1.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .hero-subtitle-en {
+                font-size: 0.95rem;
+            }
+            
+            .btn-hero, .btn-hero-outline {
+                padding: 12px 30px;
+                font-size: 1rem;
+                flex: 1;
+                min-width: 250px;
+                max-width: 100%;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+                justify-content: center;
+            }
+            
+            .hero-buttons .btn {
+                margin: 0;
+                width: 100%;
+            }
+            
+            .stat-item {
+                padding: 0.8rem 0.6rem;
+                min-width: 70px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
+            }
+            
+            .hero-visual {
+                height: 280px;
+                margin-top: 2rem;
+            }
+            
+            .floating-cards {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .floating-card {
+                width: 70px;
+                height: 70px;
+                padding: 10px;
+            }
+            
+            .floating-card i {
+                font-size: 1rem;
+                margin-bottom: 4px;
+            }
+            
+            .floating-card span {
+                font-size: 0.6rem;
+            }
+            
+            .shield-container {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .hero-icon {
+                font-size: 4rem;
+            }
+            
+            .ring-1 {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .ring-2 {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .ring-3 {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .typewriter {
+                font-size: 1.3rem;
+                white-space: normal;
+                word-break: break-word;
+            }
+            .hero-section {
+                padding: 50px 0;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .hero-subtitle-en {
+                font-size: 0.85rem;
+            }
+            
+            .stats-flex {
+                gap: 0.8rem;
+                margin-top: 1rem;
+            }
+            
+            .stat-item {
+                padding: 0.6rem 0.5rem;
+                min-width: 60px;
+            }
+            
+            .stat-number {
+                font-size: 1.2rem;
+            }
+            
+            .stat-label {
+                font-size: 0.65rem;
+            }
+            
+            .btn-hero, .btn-hero-outline {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+                min-width: 200px;
+            }
+            
+            .hero-visual {
+                height: 250px;
+                margin-top: 1.5rem;
+            }
+            
+            .floating-cards {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .floating-card {
+                width: 60px;
+                height: 60px;
+                padding: 8px;
+            }
+            
+            .floating-card i {
+                font-size: 0.9rem;
+                margin-bottom: 3px;
+            }
+            
+            .floating-card span {
+                font-size: 0.55rem;
+            }
+            
+            .shield-container {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .hero-icon {
+                font-size: 3.5rem;
+            }
+            
+            .hero-trust-indicators {
+                margin-top: 1rem;
+            }
+            
+            .trust-text {
+                font-size: 0.8rem;
+            }
+            
+            .trust-item {
+                font-size: 0.75rem;
+            }
+            
+            .ring-1 {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .ring-2 {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .ring-3 {
+                width: 110px;
+                height: 110px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .typewriter {
+                font-size: 1.1rem;
+                white-space: normal;
+                word-break: break-word;
+            }
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .stats-flex {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .stat-item {
+                width: 100%;
+                max-width: 200px;
+                text-align: center;
+            }
+            
+            .hero-visual {
+                height: 220px;
+            }
+            
+            .floating-cards {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .floating-card {
+                width: 50px;
+                height: 50px;
+                padding: 6px;
+            }
+            
+            .floating-card i {
+                font-size: 0.8rem;
+                margin-bottom: 2px;
+            }
+            
+            .floating-card span {
+                font-size: 0.5rem;
+            }
+            
+            .shield-container {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .hero-icon {
+                font-size: 3rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt me-2"></i>ACTS
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">
+                            <i class="fas fa-star me-2"></i>Features
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">
+                            <i class="fas fa-cogs me-2"></i>Services
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">
+                            <i class="fas fa-info-circle me-2"></i>How It Works
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard:home' %}">
+                            <i class="fas fa-chart-line me-2"></i>Dashboard
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <div class="hero-badge pt-5">
+                            <span class="badge bg-light text-success px-3 py-2 rounded-pill mb-3">
+                                <i class="fas fa-shield-check me-2"></i>Digital Bangladesh Initiative
+                            </span>
+                        </div>
+                        
+                        <div class="hero-main-content">
+                            <div class="hero-text-section">
+                                <h1 class="hero-title">
+                                  
+                                    <span class="typewriter">Accountability & Corruption Tracking System</span>
+                                </h1>
+                                
+                                <div class="hero-description">
+                                    <p class="hero-subtitle bangla-text">
+                                        নাগরিক সেবায় স্বচ্ছতা ও জবাবদিহিতা
+                                    </p>
+                                    <p class="hero-subtitle-en">
+                                        AI-powered transparency platform for government procurement monitoring, 
+                                        citizen reporting, and corruption prevention in Bangladesh.
+                                    </p>
+                                </div>
+                                
+                              
+                            </div>
+                        </div>
+                        
+                        <div class="hero-actions">
+                            <div class="hero-buttons">
+                                <a href="{% url 'citizen_reports:submit_report' %}" class="btn btn-hero">
+                                    <i class="fas fa-flag me-2"></i>Report Corruption
+                                    <span class="btn-arrow">→</span>
+                                </a>
+                                <a href="{% url 'dashboard:home' %}" class="btn btn-hero-outline">
+                                    <i class="fas fa-chart-line me-2"></i>Explore Dashboard
+                                </a>
+                            </div>
+                            
+                            <div class="hero-trust-indicators">
+                                <div class="d-flex align-items-center">
+                                    <span class="trust-text me-3">Trusted by:</span>
+                                    <div class="trust-logos">
+                                        <span class="trust-item">ICT Division</span>
+                                        <span class="trust-divider">•</span>
+                                        <span class="trust-item">CPTU</span>
+                                        <span class="trust-divider">•</span>
+                                        <span class="trust-item">ACC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-visual">
+                        <div class="floating-cards">
+                            <div class="floating-card card-1">
+                                <i class="fas fa-eye"></i>
+                                <span>AI Detection</span>
+                            </div>
+                            <div class="floating-card card-2">
+                                <i class="fas fa-users"></i>
+                                <span>Citizen Reports</span>
+                            </div>
+                            <div class="floating-card card-3">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Real-time Analytics</span>
+                            </div>
+                        </div>
+                        <div class="hero-main-graphic">
+                            <div class="shield-container">
+                                <div class="shield-bg"></div>
+                                <i class="fas fa-shield-check hero-icon"></i>
+                                <div class="pulse-rings">
+                                    <div class="pulse-ring ring-1"></div>
+                                    <div class="pulse-ring ring-2"></div>
+                                    <div class="pulse-ring ring-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Core Features</h2>
+                <p>Comprehensive accountability & corruption tracking tools powered by artificial intelligence and data analytics</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon green">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h4>Smart Detection</h4>
+                        <p>AI-powered algorithms analyze procurement data to identify suspicious patterns, unusual bidding behavior, and potential corruption indicators automatically.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon red">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <h4>Citizen Reporting</h4>
+                        <p>Secure and anonymous platform for citizens to report corruption incidents with blockchain-based receipt verification for transparency.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon green">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Risk Analytics</h4>
+                        <p>Real-time risk scoring and detailed analytics provide insights into corruption patterns across different regions and organizations.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon red">
+                            <i class="fas fa-map"></i>
+                        </div>
+                        <h4>Geographic Mapping</h4>
+                        <p>Interactive heatmaps show corruption risk levels across Bangladesh districts, helping target prevention efforts effectively.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon green">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Data Protection</h4>
+                        <p>Enterprise-grade security ensures all sensitive information is protected while maintaining transparency and accountability.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon red">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Public Engagement</h4>
+                        <p>Tools for citizens, government officials, and civil society to collaborate in building a more transparent Bangladesh.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How ACTS Works</h2>
+                <p>Simple, effective, and transparent process to fight corruption</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h5>Data Collection</h5>
+                        <p>Government procurement data is automatically collected and processed from various official sources.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h5>AI Analysis</h5>
+                        <p>Advanced algorithms analyze patterns to detect suspicious activities and calculate corruption risk scores.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h5>Citizen Reports</h5>
+                        <p>Citizens can securely report corruption incidents with encrypted receipts for verification and tracking.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h5>Action & Prevention</h5>
+                        <p>Insights drive policy changes and targeted interventions to prevent corruption and improve governance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+                <p>Comprehensive digital solutions for transparency and accountability</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="service-card">
+                        <div class="service-header">
+                            <i class="fas fa-search-dollar"></i>
+                            <h4>Procurement Monitoring</h4>
+                        </div>
+                        <div class="service-body">
+                            <ul>
+                                <li><i class="fas fa-check"></i> Real-time tender tracking</li>
+                                <li><i class="fas fa-check"></i> Bid analysis and scoring</li>
+                                <li><i class="fas fa-check"></i> Contract monitoring</li>
+                                <li><i class="fas fa-check"></i> Performance evaluation</li>
+                                <li><i class="fas fa-check"></i> Compliance checking</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="service-card">
+                        <div class="service-header">
+                            <i class="fas fa-user-shield"></i>
+                            <h4>Citizen Empowerment</h4>
+                        </div>
+                        <div class="service-body">
+                            <ul>
+                                <li><i class="fas fa-check"></i> Anonymous reporting system</li>
+                                <li><i class="fas fa-check"></i> Receipt verification</li>
+                                <li><i class="fas fa-check"></i> Case tracking</li>
+                                <li><i class="fas fa-check"></i> Public transparency logs</li>
+                                <li><i class="fas fa-check"></i> Whistleblower protection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="service-card">
+                        <div class="service-header">
+                            <i class="fas fa-chart-pie"></i>
+                            <h4>Analytics & Insights</h4>
+                        </div>
+                        <div class="service-body">
+                            <ul>
+                                <li><i class="fas fa-check"></i> Risk assessment reports</li>
+                                <li><i class="fas fa-check"></i> Trend analysis</li>
+                                <li><i class="fas fa-check"></i> Geographic mapping</li>
+                                <li><i class="fas fa-check"></i> Performance dashboards</li>
+                                <li><i class="fas fa-check"></i> Policy recommendations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">৬৪+</div>
+                        <div class="stat-label">Districts Covered</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">১০০০+</div>
+                        <div class="stat-label">Reports Processed</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">৯৫%</div>
+                        <div class="stat-label">Detection Accuracy</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Monitoring Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5><i class="fas fa-shield-alt me-2"></i>ACTS</h5>
+                    <p>Building a transparent and corruption-free Digital Bangladesh through innovative technology and citizen empowerment.</p>
+                    <p class="bangla-text">ডিজিটাল বাংলাদেশের স্বপ্ন বাস্তবায়নে স্বচ্ছতা ও জবাবদিহিতা নিশ্চিত করা।</p>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="{% url 'dashboard:home' %}">Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Services</h5>
+                    <ul>
+                        <li><a href="{% url 'citizen_reports:submit_report' %}">Report Corruption</a></li>
+                        <li><a href="{% url 'citizen_reports:verify_receipt' %}">Verify Receipt</a></li>
+                        <li><a href="{% url 'dashboard:risk_analysis' %}">Risk Analysis</a></li>
+                        <li><a href="{% url 'dashboard:heatmap' %}">District Map</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Contact Information</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@acts.gov.bd</p>
+                    <p><i class="fas fa-phone me-2"></i>+880-2-XXXXXXX</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>ICT Division, Government of Bangladesh</p>
+                    <div class="mt-3">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-youtube fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 ACTS – Accountability & Corruption Tracking System. Government of Bangladesh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'linear-gradient(135deg, rgba(0,106,78,0.95) 0%, rgba(34,139,34,0.95) 100%)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.background = 'linear-gradient(135deg, var(--primary-green) 0%, #228B22 100%)';
+                navbar.style.backdropFilter = 'none';
+            }
+        });
+        
+        // Counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                const numericTarget = parseInt(target.replace(/[^\d]/g, ''));
+                const suffix = target.replace(/[\d]/g, '');
+                
+                if (isNaN(numericTarget)) return;
+                
+                let count = 0;
+                const increment = numericTarget / 100;
+                
+                const timer = setInterval(() => {
+                    count += increment;
+                    if (count >= numericTarget) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(count) + suffix;
+                    }
+                }, 20);
+            });
+        }
+        
+        // Trigger counter animation when stats section is visible
+        const statsSection = document.querySelector('.stats-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    </script>
+</body>
+</html>
