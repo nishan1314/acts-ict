@@ -1,12 +1,12 @@
 # ACTS - Accountability & Corruption Tracking System
-# Production Requirements - Minimal for deployment
+# Production Requirements - Render Compatible
 
 # Django Framework
 Django==4.2.16
 djangorestframework==3.15.2
 
-# Database
-psycopg2-binary==2.9.9
+# Database (try psycopg3 instead of psycopg2-binary)
+psycopg[binary]==3.1.18
 
 # Web Server
 gunicorn==22.0.0
