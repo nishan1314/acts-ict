@@ -2,8 +2,18 @@
 Risk Analysis Engine for ACTS
 Detects corruption red flags in procurement data
 """
-import pandas as pd
-import networkx as nx
+try:
+    import pandas as pd
+    PANDAS_AVAILABLE = True
+except ImportError:
+    PANDAS_AVAILABLE = False
+    
+try:
+    import networkx as nx
+    NETWORKX_AVAILABLE = True
+except ImportError:
+    NETWORKX_AVAILABLE = False
+    
 from collections import defaultdict
 from dashboard.models import Tender, TenderBid, RiskScore, Organization
 
@@ -322,6 +332,9 @@ class DataImporter:
     
     def import_from_csv(self, csv_file_path):
         """Import tender data from CSV file"""
+        if not PANDAS_AVAILABLE:
+            return {'success': False, 'error': 'Pandas not available. Install pandas for CSV import functionality.'}
+        
         try:
             df = pd.read_csv(csv_file_path)
             return self._process_dataframe(df)
