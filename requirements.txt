@@ -1,36 +1,44 @@
-# Django and Web Framework
+# ACTS - Accountability & Corruption Tracking System
+# Production Requirements
+
+# Django Framework
 Django==4.2.7
 djangorestframework==3.14.0
-django-cors-headers==4.3.1
-django-filter==23.3
 
 # Database
-psycopg2-binary==2.9.7
-django-extensions==3.2.3
+psycopg2-binary==2.9.9
 
 # Data Analysis
 pandas==2.1.3
-numpy==1.24.3
 networkx==3.2.1
+numpy==1.25.2
 
-# File Processing
-Pillow==10.1.0
-python-magic==0.4.27
+# Web Server
+gunicorn==23.0.0
 
-# API Documentation
-drf-yasg==1.21.7
-
-# Development Tools
+# Environment Variables
 python-decouple==3.8
-whitenoise==6.6.0
 
-# Geographic Data (Optional - for future PostGIS integration)
-# django-geojson==4.0.0
-# django-leaflet==0.28.3
+# Image Processing
+Pillow==10.1.0
 
-# Testing
-factory-boy==3.3.0
-faker==20.1.0
+# Timezone Support
+pytz==2023.3
+
+# Django Extensions
+django-cors-headers==4.3.1
+django-filter==23.4
+
+# Testing (Development)
+pytest==7.4.3
+pytest-django==4.7.0
+
+# Code Quality (Development)
+flake8==6.1.0
+black==23.11.0
+
+# Security
+cryptography==41.0.8
 
 # Utilities
 requests==2.31.0
