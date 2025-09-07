@@ -62,28 +62,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'shuddho_map.wsgi.application'
 
-# Database configuration with fallback
+# Database configuration
 import dj_database_url
 
-# Use DATABASE_URL environment variable if available (Render provides this)
+# Use DATABASE_URL if provided by Render, otherwise fall back to SQLite
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600
     )
 }
-
-# Alternative: Manual configuration
-if not config('DATABASE_URL', default=None):
-    DATABASES = {
-        'default': {
-            'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
-            'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
-            'USER': config('DB_USER', default=''),
-            'PASSWORD': config('DB_PASSWORD', default=''),
-            'HOST': config('DB_HOST', default=''),
-            'PORT': config('DB_PORT', default=''),
-        }
-    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
