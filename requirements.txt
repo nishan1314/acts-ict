@@ -16,6 +16,9 @@ numpy==1.25.2
 # Web Server
 gunicorn==23.0.0
 
+# Static Files (for Render deployment)
+whitenoise==6.6.0
+
 # Environment Variables
 python-decouple==3.8
 
